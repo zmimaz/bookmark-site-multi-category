@@ -31,6 +31,7 @@ export interface BookmarkItem {
   title: string;
   categoryId: string;
   createdAt: number;
+  updatedAt?: number;
   order: number;
   // For websites
   url?: string;

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { BookmarkItem, Category } from '@/types';
-import { Globe, FileText, File, ExternalLink, Trash2, Download, Eye, GripVertical } from 'lucide-react';
+import { Globe, FileText, File, ExternalLink, Trash2, Download, Eye, GripVertical, Pencil } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { getFile } from '@/services/fileStorage';
 
@@ -11,6 +11,7 @@ interface ItemCardProps {
   category?: Category;
   onDelete: (id: string) => void;
   onView: (item: BookmarkItem) => void;
+  onEdit?: (item: BookmarkItem) => void;
   isDark?: boolean;
   canEdit?: boolean;
 }
@@ -99,7 +100,7 @@ export function DragOverlayCard({ item, category, isDark = false }: DragOverlayC
   );
 }
 
-export function ItemCard({ item, category, onDelete, onView, isDark = false, canEdit = false }: ItemCardProps) {
+export function ItemCard({ item, category, onDelete, onView, onEdit, isDark = false, canEdit = false }: ItemCardProps) {
   const [fileData, setFileData] = useState<string | null>(item.fileData || null);
   
   const {
@@ -172,13 +173,14 @@ export function ItemCard({ item, category, onDelete, onView, isDark = false, can
       ref={setNodeRef}
       style={style}
       className={cn(
-        "backdrop-blur-xl rounded-2xl border p-3 sm:p-4 group shadow-lg hover-lift",
+        "rounded-2xl border p-3 sm:p-4 group shadow-lg hover-lift gpu-accelerate",
+        "lg:backdrop-blur-xl",
         "transition-all duration-200 ease-out",
         "active:scale-[0.98]",
         isDragging && "opacity-40 scale-[0.97]",
         isDark 
-          ? "bg-gray-800/40 border-white/10 shadow-black/30 hover:bg-gray-800/60 hover:border-indigo-400/30 hover:shadow-xl" 
-          : "bg-white/35 border-white/40 shadow-black/5 hover:bg-white/55 hover:shadow-xl hover:shadow-indigo-500/10 hover:border-indigo-200/40"
+          ? "bg-gray-800/95 lg:bg-gray-800/40 border-white/10 shadow-black/30 hover:bg-gray-800 lg:hover:bg-gray-800/60 hover:border-indigo-400/30 hover:shadow-xl" 
+          : "bg-white/95 lg:bg-white/35 border-white/40 shadow-black/5 hover:bg-white lg:hover:bg-white/55 hover:shadow-xl hover:shadow-indigo-500/10 hover:border-indigo-200/40"
       )}
     >
       <div className="flex items-start gap-2 sm:gap-3">
@@ -332,19 +334,34 @@ export function ItemCard({ item, category, onDelete, onView, isDark = false, can
           )}
           
           {canEdit && (
-            <button
-              onClick={() => onDelete(item.id)}
-              className={cn(
-                "p-2 rounded-xl backdrop-blur-sm btn-press",
-                "transition-all duration-200",
-                isDark 
-                  ? "hover:bg-red-500/20 text-gray-400 hover:text-red-400" 
-                  : "hover:bg-red-50/70 active:bg-red-100/70 text-gray-500 hover:text-red-500"
-              )}
-              title="删除"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
+            <>
+              <button
+                onClick={() => onEdit?.(item)}
+                className={cn(
+                  "p-2 rounded-xl backdrop-blur-sm btn-press",
+                  "transition-all duration-200",
+                  isDark 
+                    ? "hover:bg-white/10 active:bg-white/20 text-gray-400 hover:text-indigo-400" 
+                    : "hover:bg-indigo-50/70 active:bg-indigo-100/70 text-gray-500 hover:text-indigo-500"
+                )}
+                title="编辑"
+              >
+                <Pencil className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => onDelete(item.id)}
+                className={cn(
+                  "p-2 rounded-xl backdrop-blur-sm btn-press",
+                  "transition-all duration-200",
+                  isDark 
+                    ? "hover:bg-red-500/20 text-gray-400 hover:text-red-400" 
+                    : "hover:bg-red-50/70 active:bg-red-100/70 text-gray-500 hover:text-red-500"
+                )}
+                title="删除"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </>
           )}
         </div>
       </div>

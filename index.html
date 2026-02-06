@@ -1,15 +1,115 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <!-- 基础 SEO 元标签 -->
+    <title>我的收藏夹 - 在线书签管理器 | 网站、笔记、文件云端收藏</title>
+    <meta name="description" content="免费在线书签收藏夹，支持多级分类管理网站链接、笔记和文件。云端同步，随时随地访问您的收藏。支持深色模式，自定义主题背景。" />
+    <meta name="keywords" content="收藏夹,书签管理,在线书签,网址收藏,笔记管理,文件管理,云端同步,书签导航,网站收藏,分类管理,bookmark,favorites" />
+    <meta name="author" content="我的收藏夹" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="baiduspider" content="index, follow" />
+    
+    <!-- 规范链接 -->
+    <link rel="canonical" href="https://your-domain.pages.dev/" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://your-domain.pages.dev/" />
+    <meta property="og:title" content="我的收藏夹 - 在线书签管理器" />
+    <meta property="og:description" content="免费在线书签收藏夹，支持多级分类管理网站链接、笔记和文件。云端同步，随时随地访问您的收藏。" />
+    <meta property="og:image" content="https://your-domain.pages.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:site_name" content="我的收藏夹" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://your-domain.pages.dev/" />
+    <meta name="twitter:title" content="我的收藏夹 - 在线书签管理器" />
+    <meta name="twitter:description" content="免费在线书签收藏夹，支持多级分类管理网站链接、笔记和文件。云端同步，随时随地访问您的收藏。" />
+    <meta name="twitter:image" content="https://your-domain.pages.dev/og-image.png" />
+    
+    <!-- 移动端优化 -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="我的收藏夹" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#6366f1" />
-    <title>我的收藏夹 - 网站、笔记和文件管理</title>
+    <meta name="msapplication-TileColor" content="#6366f1" />
+    
+    <!-- 图标 -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- 预连接优化 -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    
+    <!-- 结构化数据 JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "我的收藏夹",
+      "alternateName": "在线书签管理器",
+      "description": "免费在线书签收藏夹，支持多级分类管理网站链接、笔记和文件。云端同步，随时随地访问您的收藏。",
+      "url": "https://your-domain.pages.dev/",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      },
+      "featureList": [
+        "多级分类管理",
+        "网站链接收藏",
+        "笔记记录",
+        "文件存储",
+        "云端同步",
+        "深色模式",
+        "自定义主题",
+        "拖拽排序"
+      ],
+      "screenshot": "https://your-domain.pages.dev/screenshot.png",
+      "softwareVersion": "1.0.0",
+      "author": {
+        "@type": "Organization",
+        "name": "我的收藏夹"
+      }
+    }
+    </script>
+    
+    <!-- 面包屑结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "首页",
+        "item": "https://your-domain.pages.dev/"
+      }]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- 无障碍访问：跳过导航链接 -->
+    <noscript>
+      <div style="padding: 20px; text-align: center;">
+        <h1>我的收藏夹 - 在线书签管理器</h1>
+        <p>此网站需要启用 JavaScript 才能正常使用。</p>
+        <p>这是一个免费的在线书签收藏工具，支持多级分类管理网站链接、笔记和文件。</p>
+      </div>
+    </noscript>
   </body>
 </html>

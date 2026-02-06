@@ -27,6 +27,7 @@ import { NoteViewModal } from '@/components/NoteViewModal';
 import { ThemeSettings, DEFAULT_THEME } from '@/components/ThemeSettings';
 import { AuthModal } from '@/components/AuthModal';
 import { FilePreviewModal } from '@/components/FilePreviewModal';
+import { EditItemModal } from '@/components/EditItemModal';
 import { Plus, Search, Globe, FileText, File, LayoutGrid, List, FolderOpen, Palette, Menu, Lock, LogIn } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import ConfirmDialog from './components/ConfirmDialog';
@@ -114,6 +115,7 @@ export function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [viewingNote, setViewingNote] = useState<BookmarkItem | null>(null);
   const [viewingFile, setViewingFile] = useState<BookmarkItem | null>(null);
+  const [editingItem, setEditingItem] = useState<BookmarkItem | null>(null);
   const [typeFilter, setTypeFilter] = useState<ItemType | 'all'>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [activeItem, setActiveItem] = useState<BookmarkItem | null>(null);
@@ -205,11 +207,13 @@ export function App() {
           setIsLoggedIn(true);
           setAuthToken(result.token);
           setToken(result.token); // 同步到 api 服务
+          // 同步密码到本地配置
+          setUserConfig({ ...userConfig, adminPassword: password });
           return true;
         }
         return false;
       } else {
-        // 本地验证
+        // 本地验证（仅当云端不可用时）
         if (password === userConfig.adminPassword) {
           setIsLoggedIn(true);
           setAuthToken(password);
@@ -219,13 +223,9 @@ export function App() {
         return false;
       }
     } catch (error) {
-      // 如果云端验证失败，尝试本地验证
-      if (password === userConfig.adminPassword) {
-        setIsLoggedIn(true);
-        setAuthToken(password);
-        setToken(password); // 同步到 api 服务
-        return true;
-      }
+      console.error('Login error:', error);
+      // 云端网络错误时，仍然允许本地验证（但只有在云端真的不可用时）
+      // 注意：这里不再回退到本地验证，因为云端是可用的，只是验证失败
       return false;
     }
   };
@@ -247,11 +247,13 @@ export function App() {
         }
         // 调用云端 API 修改密码
         await api.changePassword(newPassword);
+        // 同步更新所有密码存储
         setAuthToken(newPassword);
         setToken(newPassword); // 同步到 api 服务
+        setUserConfig({ ...userConfig, adminPassword: newPassword }); // 同步到本地配置
         return true;
       } else {
-        // 本地修改密码
+        // 本地修改密码（仅当云端不可用时）
         if (oldPassword === userConfig.adminPassword) {
           setUserConfig({ ...userConfig, adminPassword: newPassword });
           setAuthToken(newPassword);
@@ -435,6 +437,15 @@ export function App() {
   // 删除项目
   const handleDeleteItem = (id: string) => {
     const newItems = items.filter(item => item.id !== id);
+    setItems(newItems);
+    saveToCloud(categories, newItems);
+  };
+
+  // 编辑项目
+  const handleEditItem = (updatedItem: BookmarkItem) => {
+    const newItems = items.map(item => 
+      item.id === updatedItem.id ? updatedItem : item
+    );
     setItems(newItems);
     saveToCloud(categories, newItems);
   };
@@ -632,10 +643,11 @@ export function App() {
           
           {/* 顶部工具栏 */}
           <div className={cn(
-            "backdrop-blur-xl border-b p-3 sm:p-4 shadow-lg",
+            "border-b p-3 sm:p-4 shadow-lg",
+            "lg:backdrop-blur-xl",
             isDark 
-              ? "bg-gray-900/40 border-white/10" 
-              : "bg-white/35 border-white/30"
+              ? "bg-gray-900/90 lg:bg-gray-900/40 border-white/10" 
+              : "bg-white/90 lg:bg-white/35 border-white/30"
           )}>
             {/* 第一行：面包屑和按钮 */}
             <div className="flex items-center justify-between gap-2 sm:gap-4">
@@ -856,7 +868,7 @@ export function App() {
           </div>
 
           {/* 内容区 */}
-          <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+          <div className="flex-1 overflow-y-auto p-3 sm:p-6 scroll-container">
             {filteredItems.length > 0 ? (
               <DndContext
                 sensors={sensors}
@@ -891,6 +903,7 @@ export function App() {
                             setViewingFile(item);
                           }
                         }}
+                        onEdit={(item) => setEditingItem(item)}
                         isDark={isDark}
                         canEdit={canEdit}
                       />
@@ -962,6 +975,16 @@ export function App() {
       <NoteViewModal
         item={viewingNote}
         onClose={() => setViewingNote(null)}
+        isDark={isDark}
+      />
+
+      {/* 编辑项目模态框 */}
+      <EditItemModal
+        isOpen={!!editingItem}
+        item={editingItem}
+        onClose={() => setEditingItem(null)}
+        onSave={handleEditItem}
+        categories={categories}
         isDark={isDark}
       />
 

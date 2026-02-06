@@ -537,8 +537,9 @@ export function Sidebar({
 
   return (
     <div className={cn(
-      "w-72 sm:w-80 backdrop-blur-2xl border-r flex flex-col h-full shadow-2xl",
-      isDark ? "bg-gray-900/40 border-white/10" : "bg-white/25 border-white/30"
+      "w-72 sm:w-80 border-r flex flex-col h-full shadow-2xl",
+      "lg:backdrop-blur-2xl",
+      isDark ? "bg-gray-900/95 lg:bg-gray-900/40 border-white/10" : "bg-white/95 lg:bg-white/25 border-white/30"
     )}>
       {/* 头部 */}
       <div className={cn("p-4 border-b", isDark ? "border-white/10" : "border-white/20")}>
@@ -567,7 +568,7 @@ export function Sidebar({
         </div>
       </div>
       
-      <div className="flex-1 overflow-y-auto overflow-x-hidden p-2">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 scroll-container">
         {/* 全部收藏 */}
         <div
           className={cn(

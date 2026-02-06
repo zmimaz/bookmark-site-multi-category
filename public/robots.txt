@@ -1,0 +1,30 @@
+# robots.txt for 我的收藏夹
+
+User-agent: *
+Allow: /
+
+# 站点地图
+Sitemap: https://your-domain.pages.dev/sitemap.xml
+
+# 搜索引擎友好设置
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: Yandexbot
+Allow: /
+
+User-agent: Sogou spider
+Allow: /
+
+User-agent: 360Spider
+Allow: /
+
+# 禁止爬取 API 端点
+User-agent: *
+Disallow: /api/
