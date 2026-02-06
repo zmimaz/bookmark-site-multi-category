@@ -4,7 +4,7 @@ User-agent: *
 Allow: /
 
 # 站点地图
-Sitemap: https://your-domain.pages.dev/sitemap.xml
+Sitemap: https://publicbookmark.dpdns.org/sitemap.xml
 
 # 搜索引擎友好设置
 User-agent: Googlebot
